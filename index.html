@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KI-Kompass: Workshop für die Grundschule</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9A%A6%3C/text%3E%3C/svg%3E">
+<meta name="description" content="KI-Kompass: ein 45-Minuten-Workshop für die 4. Klasse zu den Fragen: Was verrate ich einer KI, und was nicht? Mit digitalen Ampelkarten für den Unterricht.">
+<style>
+:root{
+  --bg:#F4F8F8; --surface:#FFFFFF; --ink:#16302F; --muted:#51666A; --line:#D3E2E3;
+  --board:#1C3A3E; --board-ink:#F2F7F7; --board-muted:#B9D2D4; --brand:#1F5F66; --tint:#E6F1F2;
+  --red:#C73E36; --amber:#F2B53D; --amber-ink:#2A2208; --green:#26784A;
+  --focus:#F2B53D;
+  --display:"Arial Rounded MT Bold","Avenir Next Rounded","Trebuchet MS",system-ui,sans-serif;
+  --text:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1C1D; --surface:#152729; --ink:#E6F0F0; --muted:#A3B8BA; --line:#26403F;
+    --board:#0A2528; --board-ink:#F2F7F7; --board-muted:#A9C4C6; --brand:#7FC8D0; --tint:#1A3235;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1C1D; --surface:#152729; --ink:#E6F0F0; --muted:#A3B8BA; --line:#26403F;
+  --board:#0A2528; --board-ink:#F2F7F7; --board-muted:#A9C4C6; --brand:#7FC8D0; --tint:#1A3235;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--text);font-size:1.0625rem;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--board);z-index:10}
+.wrap{max-width:60rem;margin:0 auto;padding:0 1.25rem}
+a{color:var(--brand)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:.3rem}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;font-weight:700}
+h2{font-size:1.75rem;margin-bottom:.75rem;color:var(--brand)}
+h3{font-size:1.2rem;margin:1.75rem 0 .5rem}
+p{margin:0 0 1rem;max-width:42rem}
+
+/* Hero */
+.hero{background:var(--board);color:var(--board-ink);padding:1.25rem 0 3rem}
+.hero a{color:var(--board-ink)}
+.topnav{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;padding:0;margin:0 0 2.25rem;list-style:none;font-size:.95rem}
+.topnav a{text-decoration:none;padding:.35rem 0;border-bottom:2px solid transparent}
+.topnav a:hover{border-bottom-color:var(--amber)}
+.hero-grid{display:grid;gap:2rem;grid-template-columns:1fr;align-items:start}
+@media (min-width:52rem){.hero-grid{grid-template-columns:1fr 1.05fr;gap:3rem}}
+.hero h1{font-size:clamp(2.6rem,7vw,3.9rem);margin-bottom:1rem}
+.hero .lead{font-size:1.25rem;color:var(--board-ink);max-width:28rem}
+.hero .note{font-size:.95rem;color:var(--board-muted);max-width:28rem}
+.lights{display:flex;gap:.5rem;margin:0 0 1.5rem}
+.lights span{width:1.1rem;height:1.1rem;border-radius:50%}
+.lights .r{background:#E5534B}.lights .y{background:#F2B53D}.lights .g{background:#3FAE74}
+
+/* Ampelkarten */
+.card{background:var(--surface);color:var(--ink);border-radius:1.25rem;padding:1.5rem;border:5px solid var(--line);transition:border-color .2s}
+.card[data-state="rot"]{border-color:var(--red)}
+.card[data-state="gelb"]{border-color:var(--amber)}
+.card[data-state="gruen"]{border-color:var(--green)}
+.progress{display:flex;gap:.4rem;margin:0 0 1.25rem;padding:0;list-style:none}
+.progress li{width:.8rem;height:.8rem;border-radius:50%;background:var(--line)}
+.progress li.done{background:var(--brand)}
+.progress li.now{background:transparent;box-shadow:0 0 0 2px var(--brand)}
+.q-label{font-size:.95rem;color:var(--muted);margin:0 0 .25rem}
+.q{font-family:var(--display);font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.2;margin:0 0 1.25rem;min-height:3.6rem}
+.opts{display:grid;gap:.6rem}
+.opt{display:block;width:100%;text-align:left;border:0;border-radius:.85rem;padding:.85rem 1rem;font:inherit;font-weight:700;color:#fff;cursor:pointer}
+.opt small{display:block;font-weight:400;font-size:.9rem;opacity:.95}
+.opt.rot{background:var(--red)}.opt.gelb{background:var(--amber);color:var(--amber-ink)}.opt.gruen{background:var(--green)}
+.opt:disabled{cursor:default;opacity:.45}
+.opt.picked{opacity:1;box-shadow:0 0 0 3px var(--ink)}
+.feedback{margin-top:1.1rem;min-height:8rem}
+.feedback strong{font-family:var(--display);font-size:1.25rem;display:block;margin-bottom:.15rem}
+.feedback .gilt{display:block;margin-top:.35rem;font-size:.92rem;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem}
+.btn{font:inherit;font-weight:700;border-radius:.75rem;padding:.6rem 1rem;border:2px solid var(--brand);background:var(--brand);color:var(--surface);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--brand)}
+.end h3{margin-top:0}
+
+/* Content */
+main section{padding:3rem 0 0}
+main section:last-of-type{padding-bottom:3rem}
+.rules{display:grid;gap:.6rem;padding:0;list-style:none;margin:1rem 0 1.5rem;max-width:36rem}
+.rules li{display:flex;gap:.75rem;align-items:center;background:var(--tint);border-radius:.8rem;padding:.7rem 1rem;font-weight:600}
+.rules i{flex:none;width:1rem;height:1rem;border-radius:50%}
+.timeline{list-style:none;margin:1rem 0 1.5rem;padding:0;max-width:44rem;border-left:3px solid var(--line)}
+.timeline li{display:grid;grid-template-columns:4.5rem 1fr;gap:.75rem;padding:.55rem 0 .55rem 1rem}
+.timeline b{color:var(--brand)}
+.goals{max-width:42rem;padding-left:1.25rem}
+.goals li{margin-bottom:.4rem}
+.split{display:grid;gap:2rem}
+@media (min-width:52rem){.split{grid-template-columns:1fr 1fr}}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:.8rem;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:34rem;font-size:.98rem}
+th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--tint);font-family:var(--display);font-weight:700}
+tr:last-child td{border-bottom:0}
+.soon{display:inline-block;font-size:.8rem;background:var(--tint);color:var(--brand);border-radius:.5rem;padding:.05rem .5rem;margin-left:.35rem;white-space:nowrap}
+footer{background:var(--board);color:var(--board-muted);padding:2rem 0;font-size:.92rem}
+footer p{max-width:48rem;margin-bottom:.6rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <ul class="topnav">
+      <li><a href="#ampel">Ampelkarten</a></li>
+      <li><a href="#lehrkraefte">Für Lehrkräfte</a></li>
+      <li><a href="#eltern">Für Eltern</a></li>
+      <li><a href="#weiter">Weiterführend</a></li>
+    </ul>
+    <div class="hero-grid">
+      <div>
+        <div class="lights" aria-hidden="true"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+        <h1>KI-Kompass</h1>
+        <p class="lead">Ein Workshop für die 4. Klasse: Was verrate ich einer KI, und was nicht?</p>
+        <p class="note">Konzept zur Erprobung. Im Workshop nutzen die Kinder selbst keine KI-Tools. Probiert die Ampelkarten gleich aus.</p>
+      </div>
+
+      <div class="card" id="ampel" data-state="">
+        <ol class="progress" id="progress" aria-label="Fortschritt"></ol>
+        <div id="play">
+          <p class="q-label">Darf ich das verraten?</p>
+          <p class="q" id="q" aria-live="polite"></p>
+          <div class="opts" id="opts">
+            <button class="opt rot" data-c="rot">Rot <small>nicht verraten</small></button>
+            <button class="opt gelb" data-c="gelb">Gelb <small>nur mit Erlaubnis eines Erwachsenen</small></button>
+            <button class="opt gruen" data-c="gruen">Grün <small>darf ich erzählen</small></button>
+          </div>
+          <div class="feedback" id="feedback" aria-live="polite"></div>
+          <div class="row">
+            <button class="btn" id="next" hidden>Nächste Karte</button>
+            <button class="btn ghost" id="reveal">Auflösung zeigen</button>
+            <button class="btn ghost" id="shuffle">Karten mischen</button>
+            <button class="btn ghost" id="extra">Zusatzkarten dazu (Internet und KI)</button>
+          </div>
+        </div>
+        <div class="end" id="end" hidden>
+          <h3>Geschafft!</h3>
+          <p id="score"></p>
+          <p><strong>Die wichtigste Regel:</strong> Wenn ich unsicher bin, frage ich einen Erwachsenen.</p>
+          <div class="row"><button class="btn" id="again">Noch einmal</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="lehrkraefte">
+    <h2>Für Lehrkräfte</h2>
+    <p>Eine Schulstunde ohne Bildschirm für die Kinder. Sie sortieren, stimmen ab und begründen. Die Ampelkarten oben zeigt ihr am Whiteboard, die Kinder antworten mit Farbkarten oder Handzeichen.</p>
+
+    <h3>Was ist eine KI?</h3>
+    <p><strong>Für die Kinder:</strong> „Eine KI ist ein Computerprogramm, das aus sehr vielen Beispielen gelernt hat. Es erkennt Muster, kann zum Beispiel Bilder und Texte erzeugen und Fragen beantworten. Es denkt nicht wie ein Mensch und kann sich irren.“</p>
+    <p>Anschaulich wird das im Sortierspiel: Wer viele Katzen- und Hundekarten gesehen hat, erkennt irgendwann Katzen. So lernt auch eine KI, nur mit Millionen von Beispielen. Eine KI hat keine Gefühle und ist kein Freund.</p>
+
+    <h3>Drei Regeln, die hängen bleiben</h3>
+    <ul class="rules">
+      <li><i style="background:var(--red)"></i>Persönliches verrät man nicht.</li>
+      <li><i style="background:var(--amber)"></i>Nicht alles glauben, was eine KI sagt oder zeigt.</li>
+      <li><i style="background:var(--green)"></i>Bei Unsicherheit Erwachsene fragen.</li>
+    </ul>
+
+    <h3>Internet oder KI?</h3>
+    <p>Für die Kinder gilt eine Regel: Persönliches bleibt privat, im Internet, in Apps und bei einer KI. Die vier Zusatzkarten machen Unterschiede sichtbar: Im Internet können andere mitlesen und Inhalte weitergeben. Eine KI wirkt wie ein Gesprächspartner, kennt die Kinder aber nicht, kann sich irren und speichert womöglich, was man eingibt.</p>
+
+    <h3>Ablauf in 45 Minuten</h3>
+    <ol class="timeline">
+      <li><b>5 Min.</b><span>Einstieg: Wo begegnet uns KI? Sprachassistent, Bilder, Videos.</span></li>
+      <li><b>10 Min.</b><span>Wie lernt eine KI? Sortierspiel mit Bildkarten: Eine KI lernt aus Beispielen und kann sich irren.</span></li>
+      <li><b>10 Min.</b><span>Echt oder KI? Vier Bilder, Handzeichen, begründen. Die Kinder lernen nachzufragen, nicht Fälschungen sicher zu entlarven.</span></li>
+      <li><b>12 Min.</b><span>Darf ich das verraten? Acht Grundkarten, bei Bedarf vier Zusatzkarten zu Internet und KI, Auflösung mit einem Satz.</span></li>
+      <li><b>8 Min.</b><span>Klassenregeln formulieren, Arbeitsblatt mitgeben.</span></li>
+    </ol>
+
+    <h3>Lernziele</h3>
+    <p>Nach dem Workshop können die Kinder …</p>
+    <ol class="goals">
+      <li>in eigenen Worten erklären, dass KI aus vielen Beispielen lernt und sich irren kann.</li>
+      <li>an Beispielkarten entscheiden, welche persönlichen Informationen sie nicht verraten, und das mit einem Satz begründen.</li>
+      <li>bei Bildern begründen, warum sie unsicher sind, ob etwas echt oder KI-erzeugt ist.</li>
+      <li>nennen, welche Erwachsenen sie bei Unsicherheit fragen.</li>
+      <li>gemeinsam drei Klassenregeln für den Umgang mit KI formulieren.</li>
+    </ol>
+
+    <h3>Vor dem Einsatz</h3>
+    <ul class="goals">
+      <li>Schulleitung und Eltern vorab informieren, Einverständnis einholen, wenn Rückmeldungen erhoben werden.</li>
+      <li>Keine KI-Nutzung durch die Kinder: Viele Anbieter erlauben ihre Tools erst ab 13 Jahren oder nur mit Einwilligung der Eltern.</li>
+      <li>Keine Namen oder Fotos von Kindern in den Unterlagen. Für „Echt oder KI?“ nur Tiere, Landschaften und Gegenstände zeigen.</li>
+      <li>KI-erzeugte Bilder immer als solche kennzeichnen.</li>
+    </ul>
+  </section>
+
+  <section id="eltern">
+    <h2>Für Eltern</h2>
+    <p>Kinder begegnen KI schon früh: im Sprachassistenten, in Bildern und in Videos. Im Workshop lernen sie, wie sie damit umgehen, ohne selbst KI-Programme zu benutzen. Im Workshop werden keine persönlichen Daten der Kinder erhoben.</p>
+    <p><strong>Was ist eine KI?</strong> Künstliche Intelligenz sind Computerprogramme, die aus vielen Beispielen lernen, Muster zu erkennen. Moderne KI kann Texte, Bilder und Stimmen erzeugen oder Fragen beantworten. Sie versteht dabei nicht wie ein Mensch, kann Fehler machen und sich Dinge ausdenken.</p>
+    <h3>Drei Regeln für zu Hause</h3>
+    <div class="split">
+      <div>
+        <p><strong>Persönliches verrät man nicht.</strong> Adresse, Passwörter und Fotos von sich oder der Familie gehören nicht in Apps, Chats oder KI-Programme, ohne dass ein Erwachsener Bescheid weiß.</p>
+        <p><strong>Nicht alles glauben.</strong> Eine KI kann sich irren und auch Dinge erfinden. Bilder und Videos können täuschend echt verändert sein.</p>
+      </div>
+      <div>
+        <p><strong>Nachfragen und Erwachsene fragen.</strong> Ermutigt euer Kind, euch zu rufen: „Zeig mir das mal.“ Fragt: „Woher weißt du, dass das stimmt?“</p>
+        <p><strong>Gemeinsam ausprobieren.</strong> Wenn ihr KI-Tools nutzt, schaut zusammen hin und besprecht, was ihr eingebt und was nicht.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="weiter">
+    <h2>Ein Konzept, drei Zielgruppen</h2>
+    <p>Der Kern bleibt gleich: Ampel, Prüfen, Verantwortung. Dauer, Beispiele und Tiefe passen sich an.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>Grundschule (4. Klasse)</th><th>Jugendliche<span class="soon">in Vorbereitung</span></th><th>Unternehmen<span class="soon">in Vorbereitung</span></th></tr></thead>
+        <tbody>
+          <tr><th>Dauer</th><td>45 Minuten</td><td>90 Minuten</td><td>180 Minuten</td></tr>
+          <tr><th>Kernfrage</th><td>Darf ich das verraten?</td><td>Darf das in ein KI-Tool?</td><td>Welche Daten, welche Regeln?</td></tr>
+          <tr><th>Beispiele</th><td>Name, Adresse, Foto, Schule</td><td>Klassenchat, Fotos, Hausaufgaben, Deepfakes</td><td>Kundendaten, Verträge, Produkttexte</td></tr>
+          <tr><th>Recht und Ethik</th><td>Regeln, Erwachsene fragen</td><td>Datenschutz, Urheberrecht, Kennzeichnung</td><td>AI Act, DSGVO, Richtlinie</td></tr>
+          <tr><th>Methode</th><td>Spiele, Karten, Handzeichen</td><td>Abstimmung, Gruppenarbeit, Diskussion</td><td>Live-Umfragen, Fallarbeit, Regelwerkstatt</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>KI-Kompass ist ein Konzept von Katharina Weinberger, entstanden im Rahmen der Weiterbildung „KI Kompakt“ (fiktives Szenario zu Schulungszwecken). Erstellt mit KI-Unterstützung (Claude), von der Autorin geprüft. Stand: November 2026.</p>
+    <p>Allgemeine Information, keine Rechtsberatung. Diese Seite enthält keine Tracker, keine Cookies und keine externen Schriften oder Dateien und speichert nichts über euch.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var CARDS=[
+    {t:"Meine Adresse",a:"rot",e:"Fremde sollen nicht wissen, wo ich wohne."},
+    {t:"Mein Lieblingstier",a:"gruen",e:"Das verrät nichts Wichtiges über mich."},
+    {t:"Meine Schule",a:"gelb",e:"Nur mit Erlaubnis, denn damit kann man herausfinden, wo ich jeden Tag bin."},
+    {t:"Mein Passwort",a:"rot",e:"Das ist geheim wie ein Schlüssel. Ich verrate es niemandem außer meinen Eltern."},
+    {t:"Frage: Wie groß war ein Tyrannosaurus?",a:"gruen",e:"Fragen, bei denen ich nichts über mich verrate, sind in Ordnung."},
+    {t:"Mein Vorname",a:"gelb",e:"Nur mit Erlaubnis und nur dort, wo ein Erwachsener sagt, dass es sicher ist."},
+    {t:"Ein Foto von mir oder meiner Familie",a:"rot",e:"Fotos von Menschen gehören nicht in eine KI oder ins Internet, ohne dass Erwachsene Bescheid wissen."},
+    {t:"Mein Sportverein",a:"gelb",e:"Man kann dadurch erfahren, wann und wo ich bin. Erst fragen."},
+    {t:"Ich lade ein Foto von mir hoch, damit eine KI es lustig verändert",a:"rot",g:"ki",e:"Fotos von Menschen gehören nicht in eine KI. Sie kann das Bild speichern."},
+    {t:"Im Spiele-Chat schreibe ich, in welche Schule ich gehe",a:"rot",g:"internet",e:"Im Chat können auch Fremde mitlesen. Darum bleibt die Schule hier geheim."},
+    {t:"Ich erzähle der KI vom Streit mit meiner Freundin",a:"gelb",g:"ki",e:"Sprich zuerst mit einem Erwachsenen, den du kennst. Eine KI kennt dich nicht und kann sich irren."},
+    {t:"Ich frage die KI: Wie funktioniert ein Vulkan?",a:"gruen",g:"ki",e:"Fragen ohne Persönliches sind in Ordnung. Ob die Antwort stimmt, prüfe ich mit einem Erwachsenen oder im Buch."}
+  ];
+  var LABEL={rot:"Rot: nicht verraten",gelb:"Gelb: nur mit Erlaubnis",gruen:"Grün: darf ich erzählen"};
+  var GILT={alle:"Gilt überall: im Internet, in Apps und bei einer KI.",internet:"Gilt besonders im Internet: Was ich schreibe, können andere lesen, kopieren und weitergeben.",ki:"Gilt besonders bei einer KI: Sie kann sich irren, und was ich eingebe, kann gespeichert werden."};
+  var BASE=8, extra=false;
+  function active(){var n=extra?CARDS.length:BASE, a=[], k; for(k=0;k<n;k++){a.push(k);} return a;}
+  var order=active();
+  var i=0, score=0, answered=false;
+  var $=function(id){return document.getElementById(id);};
+  var card=document.querySelector(".card");
+
+  function dots(){
+    var p=$("progress"); p.textContent="";
+    order.forEach(function(_,k){
+      var li=document.createElement("li");
+      li.className = k<i ? "done" : (k===i ? "now" : "");
+      p.appendChild(li);
+    });
+  }
+  function render(){
+    answered=false; card.setAttribute("data-state","");
+    $("play").hidden=false; $("end").hidden=true;
+    $("q").textContent=CARDS[order[i]].t;
+    $("feedback").textContent="";
+    $("next").hidden=true; $("reveal").hidden=false; $("shuffle").hidden=(i!==0); $("extra").hidden=(i!==0);
+    Array.prototype.forEach.call($("opts").children,function(b){b.disabled=false;b.classList.remove("picked");});
+    dots();
+  }
+  function showResult(choice){
+    var c=CARDS[order[i]]; answered=true;
+    card.setAttribute("data-state",c.a);
+    var head;
+    if(choice===null){head="Auflösung";}
+    else if(choice===c.a){head="Genau!"; score++;}
+    else{head="Fast. Diese Karte ist "+LABEL[c.a].split(":")[0]+".";}
+    var fb=$("feedback"); fb.textContent="";
+    var s=document.createElement("strong"); s.textContent=head;
+    var t=document.createElement("span"); t.textContent=LABEL[c.a]+". "+c.e;
+    var g=document.createElement("span"); g.className="gilt"; g.textContent=GILT[c.g||"alle"];
+    fb.appendChild(s); fb.appendChild(t); fb.appendChild(g);
+    Array.prototype.forEach.call($("opts").children,function(b){
+      b.disabled=true; if(b.getAttribute("data-c")===choice){b.classList.add("picked");}
+    });
+    $("reveal").hidden=true; $("shuffle").hidden=true; $("extra").hidden=true;
+    var n=$("next"); n.hidden=false; n.textContent=(i===order.length-1)?"Zum Ergebnis":"Nächste Karte"; n.focus();
+  }
+  function finish(){
+    $("play").hidden=true; $("end").hidden=false; card.setAttribute("data-state","");
+    $("score").textContent="Bei "+score+" von "+order.length+" Karten wart ihr gleich bei der richtigen Farbe.";
+    i=order.length; dots();
+  }
+  function restart(shuffle){
+    i=0; score=0;
+    order=active();
+    if(shuffle){
+      for(var k=order.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var tmp=order[k];order[k]=order[j];order[j]=tmp;}
+    }
+    render();
+  }
+  $("opts").addEventListener("click",function(e){
+    var b=e.target.closest("button"); if(!b||answered){return;}
+    showResult(b.getAttribute("data-c"));
+  });
+  $("reveal").addEventListener("click",function(){ if(!answered){showResult(null);} });
+  $("next").addEventListener("click",function(){
+    if(i===order.length-1){finish();}else{i++;render();}
+  });
+  $("shuffle").addEventListener("click",function(){restart(true);});
+  $("extra").addEventListener("click",function(){
+    extra=!extra;
+    $("extra").textContent=extra?"Nur die acht Grundkarten":"Zusatzkarten dazu (Internet und KI)";
+    restart(false);
+  });
+  $("again").addEventListener("click",function(){restart(false);});
+  restart(false);
+})();
+</script>
+</body>
+</html>
