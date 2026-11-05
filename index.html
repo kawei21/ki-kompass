@@ -103,6 +103,14 @@ th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--line);ve
 th{background:var(--tint);font-family:var(--display);font-weight:700}
 tr:last-child td{border-bottom:0}
 .soon{display:inline-block;font-size:.8rem;background:var(--tint);color:var(--brand);border-radius:.5rem;padding:.05rem .5rem;margin-left:.35rem;white-space:nowrap}
+.mat{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr));margin-top:1.25rem}
+.mat a.item{display:block;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:.9rem;overflow:hidden}
+.mat a.item:hover,.mat a.item:focus-visible{border-color:var(--brand)}
+.mat img{display:block;width:100%;height:auto;border-bottom:1px solid var(--line);background:#fff}
+.mat .t{padding:.7rem .9rem .9rem}
+.mat .t b{display:block;font-family:var(--display);color:var(--brand);font-size:1.05rem;overflow-wrap:anywhere;hyphens:auto}
+.mat .t span{display:block;font-size:.9rem;color:var(--muted);line-height:1.4}
+.mat .tag{display:inline-block;font-size:.78rem;background:var(--tint);color:var(--brand);border-radius:.5rem;padding:.05rem .5rem;margin-top:.35rem}
 footer{background:var(--board);color:var(--board-muted);padding:2rem 0;font-size:.92rem}
 footer p{max-width:48rem;margin-bottom:.6rem}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{transition:none}}
@@ -116,6 +124,7 @@ footer p{max-width:48rem;margin-bottom:.6rem}
       <li><a href="#ampel">Ampelkarten</a></li>
       <li><a href="#lehrkraefte">Für Lehrkräfte</a></li>
       <li><a href="#eltern">Für Eltern</a></li>
+      <li><a href="#material">Materialien</a></li>
       <li><a href="#weiter">Weiterführend</a></li>
     </ul>
     <div class="hero-grid">
@@ -237,6 +246,39 @@ footer p{max-width:48rem;margin-bottom:.6rem}
         <p><strong>Gemeinsam hinschauen.</strong> Sprecht über Influencer und Videos, die euer Kind sieht: Ist die Person echt? Was will sie verkaufen? Wenn ihr KI-Tools nutzt, schaut zusammen hin und besprecht, was ihr eingebt und was nicht.</p>
       </div>
     </div>
+  </section>
+
+  <section id="material">
+    <h2>Materialien zum Herunterladen</h2>
+    <p>Alles ist druckfertig (PDF, A4). Die Kinder nutzen im Workshop keine KI-Tools, die Materialien kommen ohne Bildschirm aus.</p>
+    <div class="mat">
+      <a class="item" href="material/Agenda_KI-Kompass_4_Klasse.pdf">
+        <img src="material/vorschau/Agenda_KI-Kompass_4_Klasse.jpg" alt="Vorschau der Agenda" loading="lazy">
+        <div class="t"><b>Agenda</b><span>Ablauf in 45 Minuten, Lernziele, Regeln</span><span class="tag">Lehrkräfte</span></div>
+      </a>
+      <a class="item" href="material/Moderationsleitfaden_KI-Kompass_4_Klasse.pdf">
+        <img src="material/vorschau/Moderationsleitfaden_KI-Kompass_4_Klasse.jpg" alt="Vorschau des Moderationsleitfadens" loading="lazy">
+        <div class="t"><b>Moderationsleitfaden</b><span>Detailagenda für alle fünf Blöcke</span><span class="tag">Lehrkräfte</span></div>
+      </a>
+      <a class="item" href="material/Sortierspiel_Katze-oder-Hund_KI-Kompass_zum_Drucken.pdf">
+        <img src="material/vorschau/Sortierspiel_Katze-oder-Hund_KI-Kompass_zum_Drucken.jpg" alt="Vorschau des Sortierspiels" loading="lazy">
+        <div class="t"><b>Sortierspiel „Katze oder Hund?“</b><span>Karten zum Ausdrucken und Ablauf</span></div>
+      </a>
+      <a class="item" href="material/Ampelkarten_KI-Kompass_zum_Drucken.pdf">
+        <img src="material/vorschau/Ampelkarten_KI-Kompass_zum_Drucken.jpg" alt="Vorschau der Ampelkarten" loading="lazy">
+        <div class="t"><b>Ampelkarten</b><span>Fragekarten, Farbkarten und Moderationsblatt mit Auflösung</span></div>
+      </a>
+      <a class="item" href="material/Regelkarten_und_Plakat_KI-Kompass_zum_Drucken.pdf">
+        <img src="material/vorschau/Regelkarten_und_Plakat_KI-Kompass_zum_Drucken.jpg" alt="Vorschau der Regelkarten" loading="lazy">
+        <div class="t"><b>Regelkarten und Plakat</b><span>Unsere Regeln für Internet, Spiele und KI</span></div>
+      </a>
+      <a class="item" href="material/Arbeitsblatt_KI-Kompass_4_Klasse_Kinder.pdf">
+        <img src="material/vorschau/Arbeitsblatt_KI-Kompass_4_Klasse_Kinder.jpg" alt="Vorschau des Arbeitsblatts" loading="lazy">
+        <div class="t"><b>Arbeitsblatt für Kinder</b><span>„Mein KI-Kompass“, eine Seite</span></div>
+      </a>
+    </div>
+    <p style="margin-top:1.25rem"><a href="material/Arbeitsblatt_KI-Kompass_Loesungen_Lehrkraefte.pdf">Lösungen zum Arbeitsblatt (nur für Lehrkräfte)</a></p>
+    <p class="note" style="font-size:.9rem;color:var(--muted)">Konzept zu Schulungszwecken (fiktives Szenario), erstellt mit KI-Unterstützung (Claude) und von der Autorin geprüft. Keine Rechtsberatung. Symbole in einigen Materialien: Font Awesome Free, CC BY 4.0.</p>
   </section>
 
   <section id="weiter">
